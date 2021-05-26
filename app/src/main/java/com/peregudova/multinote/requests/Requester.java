@@ -20,7 +20,7 @@ public class Requester {
         final Collection<NameValuePair> params = new ArrayList();
         params.add(new BasicNameValuePair("login", user.getLogin()));
         params.add(new BasicNameValuePair("password", user.getPassword()));
-
+        //ошибка
         final Content postResultForm = Request.Post(url+"login/index.php")
                 .bodyForm(params, Charset.defaultCharset())
                 .execute().returnContent();
