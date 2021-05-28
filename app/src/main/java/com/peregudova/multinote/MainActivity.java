@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
                 boolean answer = viewModel.check(log, pas);
                 if(answer){
                     LoginAnswer answer1 = viewModel.logIn(log, pas);
+
                 }else{
                     Toast.makeText(getApplicationContext(), "Error in login or password", Toast.LENGTH_SHORT).show();
                 }
