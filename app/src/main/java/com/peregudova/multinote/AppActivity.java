@@ -28,8 +28,6 @@ public class AppActivity extends AppCompatActivity {
         String token;
         user = getIntent().getExtras().getString("user");
         token = getIntent().getExtras().getString("token");
-        String text = user+" "+token;
-        textView.setText(text);
         allNotesViewModel = ViewModelProviders.of(this).get(AllNotesViewModel.class);
         allNotesViewModel.getProgressState().observe(this, aBoolean -> {
             if (aBoolean) {
