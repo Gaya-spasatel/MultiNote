@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import com.peregudova.multinote.requests.LoginAnswer;
 
-public class MainActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
     private Button enter;
     private Button register;
     private EditText login;
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
                 enter.setClickable(true);
                 if(loginAnswer.getConnection().equals("true") && loginAnswer.getAnswer().equals("Authorized") && !loginAnswer.getToken().equals("-")){
-                    Intent intent = new Intent(MainActivity.this, AppActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, AppActivity.class);
                     intent.putExtra("user", log);
                     intent.putExtra("token", loginAnswer.getToken());
                     startActivity(intent);
