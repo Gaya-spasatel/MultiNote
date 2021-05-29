@@ -2,7 +2,9 @@ package com.peregudova.multinote;
 
 import android.os.AsyncTask;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
 import com.peregudova.multinote.checkers.LoginChecker;
@@ -14,14 +16,15 @@ import com.peregudova.multinote.requests.User;
 import java.io.IOException;
 
 public class LoginViewModel extends ViewModel {
-    private LoginAnswer answer;
+    private MutableLiveData<LoginAnswer> answer = new MutableLiveData<LoginAnswer>();
+
     private MutableLiveData<Boolean> showProgress = new MutableLiveData<>();
 
     class LoginTask extends AsyncTask<User, Void, LoginAnswer>{
 
         @Override
         protected LoginAnswer doInBackground(User... users) {
-            LoginAnswer loginAnswer = null;
+            LoginAnswer loginAnswer = new LoginAnswer("Nothing", "false", "-");
             for(User user:users){
                 try {
                     loginAnswer = new Requester().loginUser(user);
@@ -34,21 +37,23 @@ public class LoginViewModel extends ViewModel {
 
         @Override
         protected void onPostExecute(LoginAnswer loginAnswer) {
-            answer = loginAnswer;
+            answer.postValue(loginAnswer);
+            showProgress.postValue(false);
         }
     }
 
-    public LoginAnswer logIn(String login, String password){
+
+    public void logIn(String login, String password){
         showProgress.postValue(true);
-        //логика авторизации
-        //LoginAnswer loginAnswer =
         LoginTask loginTask = (LoginTask) new LoginTask().execute(new User(login, password));
-        showProgress.postValue(false);
-        return answer;
     }
 
     public MutableLiveData<Boolean> getProgressState(){
         return showProgress;
+    }
+
+    public MutableLiveData<LoginAnswer> getAnswer() {
+        return answer;
     }
 
     public boolean check(String login, String password){

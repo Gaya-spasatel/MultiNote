@@ -38,8 +38,7 @@ public class MainActivity extends AppCompatActivity {
                 String pas = password.getText().toString();
                 boolean answer = viewModel.check(log, pas);
                 if(answer){
-                    LoginAnswer answer1 = viewModel.logIn(log, pas);
-
+                    viewModel.logIn(log, pas);
                 }else{
                     Toast.makeText(getApplicationContext(), "Error in login or password", Toast.LENGTH_SHORT).show();
                 }
@@ -54,6 +53,12 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     hideProgress();
                 }
+            }
+        });
+        viewModel.getAnswer().observe(this, new Observer<LoginAnswer>() {
+            @Override
+            public void onChanged(LoginAnswer loginAnswer) {
+                Toast.makeText(getApplicationContext(), loginAnswer.getConnection()+loginAnswer.getToken(), Toast.LENGTH_LONG).show();
             }
         });
     }
