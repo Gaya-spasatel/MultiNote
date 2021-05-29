@@ -33,4 +33,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:name="com.peregudova.multinote.NoteFragment"
+        android:id="@+id/note_fragment"
+        android:visibility="invisible"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
