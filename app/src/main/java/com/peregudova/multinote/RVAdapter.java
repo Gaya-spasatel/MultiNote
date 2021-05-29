@@ -1,9 +1,12 @@
 package com.peregudova.multinote;
 
+import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -11,22 +14,27 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.peregudova.multinote.requests.Note;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NotesViewHolder>{
+    private final LayoutInflater inflater;
+    ArrayList<Note> notes;
 
-    List<Note> notes;
-
-    RVAdapter(Map<String, Note> notes){
-        this.notes = (List<Note>) notes.values();
+    RVAdapter(Context context, Map<String, Note> notes){
+        this.notes = new ArrayList<>();
+        this.notes.addAll(notes.values());
+        this.inflater = LayoutInflater.from(context);
     }
 
     @NonNull
     @org.jetbrains.annotations.NotNull
     @Override
     public NotesViewHolder onCreateViewHolder(@NonNull @org.jetbrains.annotations.NotNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card, parent, false);
+        View v = inflater.inflate(R.layout.card, parent, false);
         return new NotesViewHolder(v);
     }
 
@@ -35,6 +43,11 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NotesViewHolder>{
         holder.owner.setText(notes.get(position).getOwner());
         holder.text.setText(notes.get(position).getText());
         holder.time.setText(notes.get(position).getLast_modified());
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(@NonNull @NotNull RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
     }
 
     @Override

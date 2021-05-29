@@ -1,25 +1,15 @@
 package com.peregudova.multinote;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.peregudova.multinote.requests.Note;
-import com.peregudova.multinote.requests.NotesAnswer;
 
-import java.util.List;
-import java.util.Map;
 
 public class AppActivity extends AppCompatActivity {
     private TextView textView;
@@ -41,30 +31,29 @@ public class AppActivity extends AppCompatActivity {
         String text = user+" "+token;
         textView.setText(text);
         allNotesViewModel = ViewModelProviders.of(this).get(AllNotesViewModel.class);
-        allNotesViewModel.getProgressState().observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean aBoolean) {
-                if (aBoolean) {
-                    showProgress();
-                } else {
-                    hideProgress();
-                }
+        allNotesViewModel.getProgressState().observe(this, aBoolean -> {
+            if (aBoolean) {
+                showProgress();
+            } else {
+                hideProgress();
             }
         });
-        allNotesViewModel.getNotesAnswerMutableLiveData().observe(this, new Observer<NotesAnswer>() {
-            @Override
-            public void onChanged(NotesAnswer notesAnswer) {
-                //логика обновления списка заметок
+        allNotesViewModel.getNotesAnswerMutableLiveData().observe(this, notesAnswer -> {
+            //логика обновления списка заметок
+            if(notesAnswer.getNotes()!=null) {
+                RVAdapter adapter = new RVAdapter(this, notesAnswer.getNotes());
+                rv.setAdapter(adapter);
             }
         });
         allNotesViewModel.getallnotes(user, token);
+
     }
     private void showProgress() {
-        ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        ProgressBar progressBar =  findViewById(R.id.progressBar);
         progressBar.setVisibility(ProgressBar.VISIBLE);
     }
     private void hideProgress(){
-        ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        ProgressBar progressBar =  findViewById(R.id.progressBar);
         progressBar.setVisibility(ProgressBar.INVISIBLE);
     }
 
