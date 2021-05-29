@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -20,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
     private EditText login;
     private EditText password;
     LoginViewModel viewModel;
+    private String log;
+    private String pas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,14 +37,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //запуск проверки и после ее прохождения отправка данных на авторизацию
-                String log = login.getText().toString();
-                String pas = password.getText().toString();
+                log = login.getText().toString();
+                pas = password.getText().toString();
                 boolean answer = viewModel.check(log, pas);
                 if(answer){
                     viewModel.logIn(log, pas);
                 }else{
                     Toast.makeText(getApplicationContext(), "Error in login or password", Toast.LENGTH_SHORT).show();
                 }
+                enter.setClickable(false);
             }
         });
         viewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
@@ -58,7 +62,16 @@ public class MainActivity extends AppCompatActivity {
         viewModel.getAnswer().observe(this, new Observer<LoginAnswer>() {
             @Override
             public void onChanged(LoginAnswer loginAnswer) {
-                Toast.makeText(getApplicationContext(), loginAnswer.getConnection()+loginAnswer.getToken(), Toast.LENGTH_LONG).show();
+
+                enter.setClickable(true);
+                if(loginAnswer.getConnection().equals("true") && loginAnswer.getAnswer().equals("Authorized") && !loginAnswer.getToken().equals("-")){
+                    Intent intent = new Intent(MainActivity.this, AppActivity.class);
+                    intent.putExtra("user", log);
+                    intent.putExtra("token", loginAnswer.getToken());
+                    startActivity(intent);
+                } else{
+                    Toast.makeText(getApplicationContext(), "Authorization Answer:"+loginAnswer.getAnswer(), Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
