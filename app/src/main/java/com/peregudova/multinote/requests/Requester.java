@@ -22,7 +22,11 @@ public class Requester {
         final Map<String, String> parameters = new HashMap<>();
         parameters.put("login", user.getLogin());
         parameters.put("password", user.getPassword());
-        setData(con, parameters);
+        con.setDoOutput(true);
+        final DataOutputStream out = new DataOutputStream(con.getOutputStream());
+        out.writeBytes(getParamsString(parameters));
+        out.flush();
+        out.close();
         return new Gson().fromJson(getAnswer(con), LoginAnswer.class);
 
     }
