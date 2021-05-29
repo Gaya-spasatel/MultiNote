@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.peregudova.multinote.requests.NotesAnswer;
+
 public class AppActivity extends AppCompatActivity {
     private TextView textView;
     AllNotesViewModel allNotesViewModel;
@@ -17,8 +19,8 @@ public class AppActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app);
         textView = findViewById(R.id.textView2);
-        String user = "Error";
-        String token = "-";
+        String user;
+        String token;
         user = getIntent().getExtras().getString("user");
         token = getIntent().getExtras().getString("token");
         String text = user+" "+token;
@@ -32,6 +34,12 @@ public class AppActivity extends AppCompatActivity {
                 } else {
                     hideProgress();
                 }
+            }
+        });
+        allNotesViewModel.getNotesAnswerMutableLiveData().observe(this, new Observer<NotesAnswer>() {
+            @Override
+            public void onChanged(NotesAnswer notesAnswer) {
+                //логика обновления списка заметок
             }
         });
     }
