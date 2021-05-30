@@ -68,8 +68,6 @@ public class AppActivity extends AppCompatActivity implements RecyclerViewClickL
         FragmentManager fragmentManager = getSupportFragmentManager();
         NoteFragment fragment = (NoteFragment) fragmentManager.findFragmentById(R.id.note_fragment);
         if(fragment!=null){
-            //TextView id = v.findViewById(R.id.id_note);
-            //String note_id = id.getText().toString();
             Log.d("", "Say fragment setNote");
             fragment.setNote(adapter.getNoteByPosition(position), user, token);
             rv.setVisibility(View.INVISIBLE);
