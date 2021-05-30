@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -63,6 +64,6 @@ public class AppActivity extends AppCompatActivity implements RecyclerViewClickL
 
     @Override
     public void recyclerViewListClicked(View v, int position) {
-
+        Log.d("Catch click", "Click cathed. Position"+position);
     }
 }

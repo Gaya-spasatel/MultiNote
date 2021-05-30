@@ -61,7 +61,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NotesViewHolder>{
             holder.text.setText(notes.get(position).getText());
         }
         holder.time.setText(notes.get(position).getLast_modified());
-        holder.cv.setTag(position);
+        holder.id.setText(notes.get(position).getId());
     }
 
     @Override
@@ -85,6 +85,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NotesViewHolder>{
         TextView text;
         TextView owner;
         TextView time;
+        TextView id;
         NotesViewHolder(View itemView) {
             super(itemView);
             cv = itemView.findViewById(R.id.cv);
@@ -92,6 +93,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NotesViewHolder>{
             owner = itemView.findViewById(R.id.note_owner);
             time = itemView.findViewById(R.id.note_time);
             itemView.setOnClickListener(this);
+            id = itemView.findViewById(R.id.id_note);
         }
 
         @Override

@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -37,6 +38,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //запуск проверки и после ее прохождения отправка данных на авторизацию
+
+                Log.d("Click", "click");
                 log = login.getText().toString();
                 pas = password.getText().toString();
                 boolean answer = viewModel.check(log, pas);
