@@ -1,21 +1,24 @@
 package com.peregudova.multinote;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 
 
-public class AppActivity extends AppCompatActivity {
+public class AppActivity extends AppCompatActivity implements RecyclerViewClickListener{
     private TextView textView;
     AllNotesViewModel allNotesViewModel;
     RecyclerView rv;
+    RVAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +44,7 @@ public class AppActivity extends AppCompatActivity {
         allNotesViewModel.getNotesAnswerMutableLiveData().observe(this, notesAnswer -> {
             //логика обновления списка заметок
             if(notesAnswer.getNotes()!=null) {
-                RVAdapter adapter = new RVAdapter(this, notesAnswer.getNotes());
+                adapter = new RVAdapter(this, notesAnswer.getNotes(), this);
                 rv.setAdapter(adapter);
             }
         });
@@ -57,4 +60,9 @@ public class AppActivity extends AppCompatActivity {
         progressBar.setVisibility(ProgressBar.INVISIBLE);
     }
 
+
+    @Override
+    public void recyclerViewListClicked(View v, int position) {
+
+    }
 }

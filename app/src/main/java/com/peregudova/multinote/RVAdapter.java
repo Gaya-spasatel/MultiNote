@@ -23,11 +23,16 @@ import java.util.Map;
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NotesViewHolder>{
     private final LayoutInflater inflater;
     ArrayList<Note> notes;
+    private Context context;
+    private static RecyclerViewClickListener itemListener;
 
-    RVAdapter(Context context, Map<String, Note> notes){
+    RVAdapter(Context context, Map<String, Note> notes, RecyclerViewClickListener itemListener){
         this.notes = new ArrayList<>();
         this.notes.addAll(notes.values());
         this.inflater = LayoutInflater.from(context);
+        this.context = context;
+        RVAdapter.itemListener = itemListener;
+
     }
 
     @NonNull
@@ -40,12 +45,15 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NotesViewHolder>{
 
     @Override
     public void onBindViewHolder(RVAdapter.NotesViewHolder holder, int position) {
+        /*
         holder.cv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // TODO: 29.05.2021 открытие фрагмента с отдельной заметкой 
             }
         });
+
+         */
         holder.owner.setText(notes.get(position).getOwner());
         if(notes.get(position).getText().length()>50) {
             holder.text.setText(notes.get(position).getText().substring(0, 50));
@@ -53,6 +61,12 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NotesViewHolder>{
             holder.text.setText(notes.get(position).getText());
         }
         holder.time.setText(notes.get(position).getLast_modified());
+        holder.cv.setTag(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return super.getItemId(position);
     }
 
     @Override
@@ -65,7 +79,8 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NotesViewHolder>{
         return notes.size();
     }
 
-    public static class NotesViewHolder extends RecyclerView.ViewHolder {
+
+    public static class NotesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         CardView cv;
         TextView text;
         TextView owner;
@@ -76,6 +91,12 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NotesViewHolder>{
             text = itemView.findViewById(R.id.note_text);
             owner = itemView.findViewById(R.id.note_owner);
             time = itemView.findViewById(R.id.note_time);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            itemListener.recyclerViewListClicked(view, this.getLayoutPosition());
         }
     }
 }
