@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.peregudova.multinote.requests.GetAllNotesCommand;
 import com.peregudova.multinote.requests.GetNoteCommand;
+import com.peregudova.multinote.requests.Note;
 import com.peregudova.multinote.requests.NoteAnswer;
 import com.peregudova.multinote.requests.NotesAnswer;
 import com.peregudova.multinote.requests.Requester;
@@ -40,4 +41,9 @@ public class NoteFragmentViewModel extends ViewModel {
             noteAnswerMutableLiveData.postValue(noteAnswer);
         }
     }
+
+    public void getNote(Note note, String user, String token){
+        NoteAsync noteAsync = (NoteAsync) new NoteAsync().execute(new GetNoteCommand(token, user, note.getId()));
+    }
+
 }

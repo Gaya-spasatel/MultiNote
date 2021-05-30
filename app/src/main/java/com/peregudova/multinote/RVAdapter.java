@@ -45,15 +45,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NotesViewHolder>{
 
     @Override
     public void onBindViewHolder(RVAdapter.NotesViewHolder holder, int position) {
-        /*
-        holder.cv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // TODO: 29.05.2021 открытие фрагмента с отдельной заметкой 
-            }
-        });
 
-         */
         holder.owner.setText(notes.get(position).getOwner());
         if(notes.get(position).getText().length()>50) {
             holder.text.setText(notes.get(position).getText().substring(0, 50));
