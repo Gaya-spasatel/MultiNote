@@ -45,7 +45,7 @@ public class NoteFragment extends Fragment implements View.OnClickListener {
 
     private void showContent(NoteAnswer noteAnswer) {
         Log.d("", "shows info");
-        requireView().setVisibility(View.INVISIBLE);
+        getView().setVisibility(View.VISIBLE);
         note_text.setText(noteAnswer.getNote().getText());
         Note note = noteAnswer.getNote();
         String info = "Is modified: "+note.getIs_modified()+"\nLast modified: "+note.getLast_modified()+"\nLogin modified: "+note.getLogin_modified()+"\nOwner: "+note.getOwner();
@@ -61,6 +61,7 @@ public class NoteFragment extends Fragment implements View.OnClickListener {
         button.setOnClickListener(this);
         note_text = inflate.findViewById(R.id.note_text);
         note_info = inflate.findViewById(R.id.note_info);
+        inflate.setVisibility(View.GONE);
         return inflate;
     }
 

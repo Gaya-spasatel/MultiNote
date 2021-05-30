@@ -72,7 +72,8 @@ public class AppActivity extends AppCompatActivity implements RecyclerViewClickL
             //String note_id = id.getText().toString();
             Log.d("", "Say fragment setNote");
             fragment.setNote(adapter.getNoteByPosition(position), user, token);
-
+            rv.setVisibility(View.INVISIBLE);
+            textView.setVisibility(View.INVISIBLE);
         }
     }
 }
