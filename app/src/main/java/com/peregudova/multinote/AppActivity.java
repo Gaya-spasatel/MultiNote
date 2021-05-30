@@ -64,7 +64,7 @@ public class AppActivity extends AppCompatActivity implements RecyclerViewClickL
 
     @Override
     public void recyclerViewListClicked(View v, int position) {
-        Log.d("Catch click", "Click cathed. Position"+position);
+        Log.d("Catch click", "Click Scathed. Position"+position);
         FragmentManager fragmentManager = getSupportFragmentManager();
         NoteFragment fragment = (NoteFragment) fragmentManager.findFragmentById(R.id.note_fragment);
         if(fragment!=null){

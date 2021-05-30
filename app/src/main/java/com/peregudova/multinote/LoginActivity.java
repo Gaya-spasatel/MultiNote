@@ -38,8 +38,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //запуск проверки и после ее прохождения отправка данных на авторизацию
-
-                Log.d("Click", "click");
                 log = login.getText().toString();
                 pas = password.getText().toString();
                 boolean answer = viewModel.check(log, pas);
@@ -49,6 +47,12 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Error in login or password", Toast.LENGTH_SHORT).show();
                 }
                 enter.setClickable(false);
+            }
+        });
+        register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //логика открытия фрагмента регистрации
             }
         });
         viewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
