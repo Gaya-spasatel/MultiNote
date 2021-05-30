@@ -1,6 +1,7 @@
 package com.peregudova.multinote;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -43,6 +44,7 @@ public class NoteFragmentViewModel extends ViewModel {
     }
 
     public void getNote(Note note, String user, String token){
+        Log.d("", "manager download note");
         NoteAsync noteAsync = (NoteAsync) new NoteAsync().execute(new GetNoteCommand(token, user, note.getId()));
     }
 

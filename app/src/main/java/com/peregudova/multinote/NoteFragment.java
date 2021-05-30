@@ -1,6 +1,7 @@
 package com.peregudova.multinote;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,8 @@ import com.peregudova.multinote.requests.NoteAnswer;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 public class NoteFragment extends Fragment implements View.OnClickListener {
 
     NoteFragmentViewModel noteFragmentViewModel;
@@ -33,13 +36,16 @@ public class NoteFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onChanged(NoteAnswer noteAnswer) {
                 //вызов функций отображения контента
+                Log.d("data", "changed");
                 showContent(noteAnswer);
+
             }
         });
     }
 
     private void showContent(NoteAnswer noteAnswer) {
-        getView().setVisibility(View.INVISIBLE);
+        Log.d("", "shows info");
+        requireView().setVisibility(View.INVISIBLE);
         note_text.setText(noteAnswer.getNote().getText());
         Note note = noteAnswer.getNote();
         String info = "Is modified: "+note.getIs_modified()+"\nLast modified: "+note.getLast_modified()+"\nLogin modified: "+note.getLogin_modified()+"\nOwner: "+note.getOwner();
@@ -65,6 +71,7 @@ public class NoteFragment extends Fragment implements View.OnClickListener {
 
     public void setNote(Note note, String user, String token) {
         //команда от активности на загрузку data фрагмента
+        Log.d("", "say manager download note");
         noteFragmentViewModel.getNote(note, user, token);
     }
 
