@@ -5,4 +5,9 @@
     <string name="button_register">Register</string>
     <string name="no_notes">No notes</string>
     <string name="add_access">Add access</string>
+    <string name="register">Register</string>
+    <string name="register">Register</string>
+    <string name="login">Login</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
 </resources>
