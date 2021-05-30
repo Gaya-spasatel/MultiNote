@@ -39,7 +39,7 @@ public class NoteFragment extends Fragment implements View.OnClickListener {
     }
 
     private void showContent(NoteAnswer noteAnswer) {
-
+        getView().setVisibility(View.INVISIBLE);
         note_text.setText(noteAnswer.getNote().getText());
         Note note = noteAnswer.getNote();
         String info = "Is modified: "+note.getIs_modified()+"\nLast modified: "+note.getLast_modified()+"\nLogin modified: "+note.getLogin_modified()+"\nOwner: "+note.getOwner();
@@ -63,9 +63,9 @@ public class NoteFragment extends Fragment implements View.OnClickListener {
         //does smthg after button clicked button add_acces
     }
 
-    public void setNote(Note note) {
+    public void setNote(Note note, String user, String token) {
         //команда от активности на загрузку data фрагмента
-
+        noteFragmentViewModel.getNote(note, user, token);
     }
 
     public interface OnSelectedButtonListener {

@@ -70,7 +70,7 @@ public class AppActivity extends AppCompatActivity implements RecyclerViewClickL
         if(fragment!=null){
             //TextView id = v.findViewById(R.id.id_note);
             //String note_id = id.getText().toString();
-            fragment.setNote(adapter.getNoteByPosition(position));
+            fragment.setNote(adapter.getNoteByPosition(position), user, token);
         }
     }
 }
