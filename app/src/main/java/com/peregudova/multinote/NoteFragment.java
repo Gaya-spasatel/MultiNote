@@ -10,6 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.peregudova.multinote.requests.Note;
+
 import org.jetbrains.annotations.NotNull;
 
 public class NoteFragment extends Fragment implements View.OnClickListener {
@@ -25,7 +27,11 @@ public class NoteFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        //does smthg after button clicked
+        //does smthg after button clicked button add_acces
+    }
+
+    public void setNote(Note note) {
+
     }
 
     public interface OnSelectedButtonListener {

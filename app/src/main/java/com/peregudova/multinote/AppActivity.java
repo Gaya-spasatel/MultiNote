@@ -20,7 +20,8 @@ public class AppActivity extends AppCompatActivity implements RecyclerViewClickL
     AllNotesViewModel allNotesViewModel;
     RecyclerView rv;
     RVAdapter adapter;
-
+    String user;
+    String token;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,8 +31,7 @@ public class AppActivity extends AppCompatActivity implements RecyclerViewClickL
         rv = findViewById(R.id.recyclerView);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         rv.setLayoutManager(llm);
-        String user;
-        String token;
+
         user = getIntent().getExtras().getString("user");
         token = getIntent().getExtras().getString("token");
         allNotesViewModel = ViewModelProviders.of(this).get(AllNotesViewModel.class);
@@ -65,5 +65,12 @@ public class AppActivity extends AppCompatActivity implements RecyclerViewClickL
     @Override
     public void recyclerViewListClicked(View v, int position) {
         Log.d("Catch click", "Click cathed. Position"+position);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        NoteFragment fragment = (NoteFragment) fragmentManager.findFragmentById(R.id.note_fragment);
+        if(fragment!=null){
+            //TextView id = v.findViewById(R.id.id_note);
+            //String note_id = id.getText().toString();
+            fragment.setNote(adapter.getNoteByPosition(position));
+        }
     }
 }

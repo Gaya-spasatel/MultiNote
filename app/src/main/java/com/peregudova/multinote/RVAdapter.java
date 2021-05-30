@@ -64,6 +64,10 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NotesViewHolder>{
         holder.id.setText(notes.get(position).getId());
     }
 
+    public Note getNoteByPosition(int position){
+        return this.notes.get(position);
+    }
+
     @Override
     public long getItemId(int position) {
         return super.getItemId(position);
