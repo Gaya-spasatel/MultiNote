@@ -2,6 +2,7 @@ package com.peregudova.multinote.app;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,6 +24,9 @@ public class AppActivity extends AppCompatActivity implements RecyclerViewClickL
     RVAdapter adapter;
     String user;
     String token;
+    NoteFragment fragment;
+    FragmentViewViewModel fragmentViewViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +56,19 @@ public class AppActivity extends AppCompatActivity implements RecyclerViewClickL
         });
         allNotesViewModel.getallnotes(user, token);
 
+        fragmentViewViewModel = ViewModelProviders.of(this).get(FragmentViewViewModel.class);
+        fragmentViewViewModel.getViewFragment().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if(aBoolean){
+                    setInvisible();
+                } else{
+                    setVisible();
+                }
+            }
+        });
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragment = (NoteFragment) fragmentManager.findFragmentById(R.id.note_fragment);
     }
     private void showProgress() {
         ProgressBar progressBar =  findViewById(R.id.progressBar);
@@ -65,14 +82,20 @@ public class AppActivity extends AppCompatActivity implements RecyclerViewClickL
 
     @Override
     public void recyclerViewListClicked(View v, int position) {
-        Log.d("Catch click", "Click Scathed. Position"+position);
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        NoteFragment fragment = (NoteFragment) fragmentManager.findFragmentById(R.id.note_fragment);
+
         if(fragment!=null){
-            Log.d("", "Say fragment setNote");
             fragment.setNote(adapter.getNoteByPosition(position), user, token);
-            rv.setVisibility(View.INVISIBLE);
-            textView.setVisibility(View.INVISIBLE);
+            fragmentViewViewModel.setViewFragment(true);
         }
+    }
+
+    public void setVisible(){
+        rv.setVisibility(View.VISIBLE);
+        textView.setVisibility(View.VISIBLE);
+    }
+
+    public void setInvisible(){
+        rv.setVisibility(View.INVISIBLE);
+        textView.setVisibility(View.INVISIBLE);
     }
 }

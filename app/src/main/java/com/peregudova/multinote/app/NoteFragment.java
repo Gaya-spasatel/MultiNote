@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -26,6 +27,8 @@ public class NoteFragment extends Fragment implements View.OnClickListener {
     Button button;
     TextView note_text;
     TextView note_info;
+    EditText text_add_access;
+    FragmentViewViewModel fragmentViewViewModel;
 
     @Override
     public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
@@ -35,16 +38,37 @@ public class NoteFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onChanged(NoteAnswer noteAnswer) {
                 //вызов функций отображения контента
-                Log.d("data", "changed");
                 showContent(noteAnswer);
 
             }
         });
     }
 
+    public void setFragmentViewViewModel(FragmentViewViewModel fragmentViewViewModel) {
+        this.fragmentViewViewModel = fragmentViewViewModel;
+        this.fragmentViewViewModel.getViewFragment().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if(aBoolean){
+                    setVisible();
+                } else{
+                    setInvisible();
+                }
+            }
+        });
+    }
+
+    public void setVisible(){
+        getView().setVisibility(View.VISIBLE);
+    }
+
+    public void setInvisible(){
+        getView().setVisibility(View.INVISIBLE);
+    }
+
     private void showContent(NoteAnswer noteAnswer) {
         Log.d("", "shows info");
-        getView().setVisibility(View.VISIBLE);
+        setVisible();
         note_text.setText(noteAnswer.getNote().getText());
         Note note = noteAnswer.getNote();
         String info = "Is modified: "+note.getIs_modified()+"\nLast modified: "+note.getLast_modified()+"\nLogin modified: "+note.getLogin_modified()+"\nOwner: "+note.getOwner();
