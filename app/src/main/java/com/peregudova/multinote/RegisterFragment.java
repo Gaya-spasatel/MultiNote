@@ -1,6 +1,7 @@
 package com.peregudova.multinote;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +29,7 @@ public class RegisterFragment extends Fragment{
     ProgressBar progressBar;
     Button register_button;
     Button back;
-
+    LogRegViewModel logRegViewModel;
 
     @Override
     public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
@@ -48,9 +49,25 @@ public class RegisterFragment extends Fragment{
             @Override
             public void onChanged(RegisterAnswer registerAnswer) {
                 //got answer from server
-                getView().setVisibility(View.GONE);
+                logRegViewModel.setViewFragment(false);
             }
         });
+
+        logRegViewModel = ViewModelProviders.of(this).get(LogRegViewModel.class);
+        logRegViewModel.getFragmentVisible().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if(aBoolean){
+                    setVisible();
+                }else {
+                    setInvisible();
+                }
+            }
+        });
+    }
+
+    private void setInvisible() {
+        getView().setVisibility(View.INVISIBLE);
     }
 
     @Nullable
@@ -80,7 +97,8 @@ public class RegisterFragment extends Fragment{
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getView().setVisibility(View.GONE);
+
+                setInvisible();
             }
         });
         inflate.setVisibility(View.GONE);
