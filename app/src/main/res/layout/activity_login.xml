@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    tools:context=".login.LoginActivity">
 
     <fragment
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
         android:id="@+id/reg_fragment"
-        android:name="com.peregudova.multinote.RegisterFragment"/>
+        android:name="com.peregudova.multinote.login.RegisterFragment"/>
 
     <LinearLayout
         android:id="@+id/linearLayout2"

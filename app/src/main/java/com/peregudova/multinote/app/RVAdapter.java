@@ -1,23 +1,21 @@
-package com.peregudova.multinote;
+package com.peregudova.multinote.app;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.peregudova.multinote.R;
 import com.peregudova.multinote.requests.Note;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NotesViewHolder>{

@@ -1,4 +1,4 @@
-package com.peregudova.multinote;
+package com.peregudova.multinote.login;
 
 import android.os.AsyncTask;
 

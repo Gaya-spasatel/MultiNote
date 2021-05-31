@@ -1,4 +1,4 @@
-package com.peregudova.multinote;
+package com.peregudova.multinote.app;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.peregudova.multinote.R;
 
 
 public class AppActivity extends AppCompatActivity implements RecyclerViewClickListener{

@@ -1,4 +1,4 @@
-package com.peregudova.multinote;
+package com.peregudova.multinote.app;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -14,12 +14,11 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.peregudova.multinote.R;
 import com.peregudova.multinote.requests.Note;
 import com.peregudova.multinote.requests.NoteAnswer;
 
 import org.jetbrains.annotations.NotNull;
-
-import java.util.Objects;
 
 public class NoteFragment extends Fragment implements View.OnClickListener {
 
