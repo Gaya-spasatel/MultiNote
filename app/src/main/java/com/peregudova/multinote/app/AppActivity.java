@@ -13,9 +13,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.peregudova.multinote.R;
+import com.peregudova.multinote.requests.NewAnswer;
 
 
 public class AppActivity extends AppCompatActivity implements RecyclerViewClickListener{
@@ -28,6 +30,7 @@ public class AppActivity extends AppCompatActivity implements RecyclerViewClickL
     NoteFragment fragment;
     FragmentViewViewModel fragmentViewViewModel;
     FloatingActionButton actionButton;
+    NewNoteViewModel newNoteViewModel;
 
 
     @Override
@@ -40,14 +43,15 @@ public class AppActivity extends AppCompatActivity implements RecyclerViewClickL
         LinearLayoutManager llm = new LinearLayoutManager(this);
         rv.setLayoutManager(llm);
         actionButton = findViewById(R.id.floatingActionButton);
+
+        user = getIntent().getExtras().getString("user");
+        token = getIntent().getExtras().getString("token");
         actionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                newNoteViewModel.newNote(user, token);
             }
         });
-        user = getIntent().getExtras().getString("user");
-        token = getIntent().getExtras().getString("token");
         allNotesViewModel = ViewModelProviders.of(this).get(AllNotesViewModel.class);
         allNotesViewModel.getProgressState().observe(this, aBoolean -> {
             if (aBoolean) {
@@ -81,6 +85,26 @@ public class AppActivity extends AppCompatActivity implements RecyclerViewClickL
         if(fragment!=null) {
             fragment.setFragmentViewViewModel(fragmentViewViewModel);
         }
+
+        newNoteViewModel = ViewModelProviders.of(this).get(NewNoteViewModel.class);
+        newNoteViewModel.getShowProgress().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if(aBoolean){
+                    showProgress();
+                } else{
+                    hideProgress();
+                }
+            }
+        });
+
+        newNoteViewModel.getNewAnswerMutableLiveData().observe(this, new Observer<NewAnswer>() {
+            @Override
+            public void onChanged(NewAnswer newAnswer) {
+                Toast.makeText(getApplicationContext(), newAnswer.getAnswer(), Toast.LENGTH_LONG).show();
+                allNotesViewModel.getallnotes(user, token);
+            }
+        });
     }
 
     private void showProgress() {
@@ -105,11 +129,13 @@ public class AppActivity extends AppCompatActivity implements RecyclerViewClickL
     public void setVisible(){
         rv.setVisibility(View.VISIBLE);
         textView.setVisibility(View.VISIBLE);
+        actionButton.setVisibility(View.VISIBLE);
     }
 
     public void setInvisible(){
         rv.setVisibility(View.INVISIBLE);
         textView.setVisibility(View.INVISIBLE);
+        actionButton.setVisibility(View.INVISIBLE);
     }
 
     @Override
