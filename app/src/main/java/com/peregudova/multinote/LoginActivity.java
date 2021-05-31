@@ -28,6 +28,7 @@ public class LoginActivity extends AppCompatActivity {
     private String pas;
     RegisterViewModel registerViewModel;
     LogRegViewModel logRegViewModel;
+    RegisterFragment fragment;
 
 
     @Override
@@ -76,11 +77,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //логика открытия фрагмента регистрации
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                RegisterFragment fragment = (RegisterFragment) fragmentManager.findFragmentById(R.id.reg_fragment);
                 if(fragment!=null){
-                    fragment.setLogRegViewModel(logRegViewModel);
-                    fragment.setRegisterViewModel(registerViewModel);
                     logRegViewModel.setViewFragment(true);
                 }
             }
@@ -111,6 +108,14 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragment = (RegisterFragment) fragmentManager.findFragmentById(R.id.reg_fragment);
+        if(fragment!=null){
+            fragment.setLogRegViewModel(logRegViewModel);
+            fragment.setRegisterViewModel(registerViewModel);
+        }
+
     }
 
     private void setInvisible() {
