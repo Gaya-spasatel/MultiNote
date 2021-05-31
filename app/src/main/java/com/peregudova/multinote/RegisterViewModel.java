@@ -5,6 +5,9 @@ import android.os.AsyncTask;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.peregudova.multinote.checkers.EmailChecker;
+import com.peregudova.multinote.checkers.LoginChecker;
+import com.peregudova.multinote.checkers.PasswordChecker;
 import com.peregudova.multinote.requests.RegisterAnswer;
 import com.peregudova.multinote.requests.Requester;
 import com.peregudova.multinote.requests.User;
@@ -49,6 +52,10 @@ public class RegisterViewModel extends ViewModel {
         showProgress.postValue(true);
         RegisterAsync registerAsync = new RegisterAsync();
         registerAsync.execute(new User(login, password, email));
+    }
+
+    public boolean checkData(String login, String password, String email){
+        return new LoginChecker().check(login) && new EmailChecker().check(email) && new PasswordChecker().check(password);
     }
 
 }
