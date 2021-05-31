@@ -73,6 +73,7 @@ public class AppActivity extends AppCompatActivity implements RecyclerViewClickL
             fragment.setFragmentViewViewModel(fragmentViewViewModel);
         }
     }
+
     private void showProgress() {
         ProgressBar progressBar =  findViewById(R.id.progressBar);
         progressBar.setVisibility(ProgressBar.VISIBLE);
@@ -100,5 +101,12 @@ public class AppActivity extends AppCompatActivity implements RecyclerViewClickL
     public void setInvisible(){
         rv.setVisibility(View.INVISIBLE);
         textView.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void onBackPressed() {
+        //нажата клавиша назад делаем обновление списка и скрываем фрагмент
+        allNotesViewModel.getallnotes(user, token);
+        fragmentViewViewModel.setViewFragment(false);
     }
 }
