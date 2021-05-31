@@ -26,6 +26,9 @@ public class LoginActivity extends AppCompatActivity {
     LoginViewModel viewModel;
     private String log;
     private String pas;
+    RegisterViewModel registerViewModel;
+    LogRegViewModel logRegViewModel;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,14 +39,14 @@ public class LoginActivity extends AppCompatActivity {
         login = (EditText)findViewById(R.id.enter_login);
         password=(EditText)findViewById(R.id.enter_password);
 
-        RegisterViewModel registerViewModel = ViewModelProviders.of(this).get(RegisterViewModel.class);
+        registerViewModel = ViewModelProviders.of(this).get(RegisterViewModel.class);
         registerViewModel.getAnswerMutableLiveData().observe(this, new Observer<RegisterAnswer>() {
             @Override
             public void onChanged(RegisterAnswer registerAnswer) {
                 Toast.makeText(getApplicationContext(), registerAnswer.getAnswer(), Toast.LENGTH_LONG).show();
             }
         });
-        LogRegViewModel logRegViewModel = ViewModelProviders.of(this).get(LogRegViewModel.class);
+        logRegViewModel = ViewModelProviders.of(this).get(LogRegViewModel.class);
         logRegViewModel.getFragmentVisible().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
@@ -77,6 +80,7 @@ public class LoginActivity extends AppCompatActivity {
                 RegisterFragment fragment = (RegisterFragment) fragmentManager.findFragmentById(R.id.reg_fragment);
                 if(fragment!=null){
                     fragment.setLogRegViewModel(logRegViewModel);
+                    fragment.setRegisterViewModel(registerViewModel);
                     logRegViewModel.setViewFragment(true);
                 }
             }

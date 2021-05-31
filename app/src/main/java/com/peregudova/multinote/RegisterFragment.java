@@ -33,7 +33,26 @@ public class RegisterFragment extends Fragment{
     @Override
     public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        registerViewModel = ViewModelProviders.of(this).get(RegisterViewModel.class);
+
+
+    }
+
+    public void setLogRegViewModel(LogRegViewModel logRegViewModel) {
+        this.logRegViewModel = logRegViewModel;
+        this.logRegViewModel.getFragmentVisible().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if(aBoolean){
+                    setVisible();
+                }else {
+                    setInvisible();
+                }
+            }
+        });
+    }
+
+    public void setRegisterViewModel(RegisterViewModel registerViewModel) {
+        this.registerViewModel = registerViewModel;
         registerViewModel.getShowProgress().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
@@ -49,21 +68,6 @@ public class RegisterFragment extends Fragment{
             public void onChanged(RegisterAnswer registerAnswer) {
                 //got answer from server
                 logRegViewModel.setViewFragment(false);
-            }
-        });
-
-    }
-
-    public void setLogRegViewModel(LogRegViewModel logRegViewModel) {
-        this.logRegViewModel = logRegViewModel;
-        this.logRegViewModel.getFragmentVisible().observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean aBoolean) {
-                if(aBoolean){
-                    setVisible();
-                }else {
-                    setInvisible();
-                }
             }
         });
     }
