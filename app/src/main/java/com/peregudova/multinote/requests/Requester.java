@@ -72,7 +72,7 @@ public class Requester {
     }
 
     public RegisterAnswer registerUser(User user) throws IOException {
-        final URL url = new URL(this.url+"login/index.php");
+        final URL url = new URL(this.url+"login/register.php");
         final HttpURLConnection con = (HttpURLConnection) url.openConnection();
         final Map<String, String> parameters = new HashMap<>();
         parameters.put("reg_login", user.getLogin());

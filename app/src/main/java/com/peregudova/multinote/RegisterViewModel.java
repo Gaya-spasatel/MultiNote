@@ -30,7 +30,7 @@ public class RegisterViewModel extends ViewModel {
 
         @Override
         protected RegisterAnswer doInBackground(User... users) {
-            RegisterAnswer registerAnswer = new RegisterAnswer("Error", "false");
+            RegisterAnswer registerAnswer = new RegisterAnswer("Error in App", "false");
             for(User user:users){
                 try {
                     registerAnswer = new Requester().registerUser(user);

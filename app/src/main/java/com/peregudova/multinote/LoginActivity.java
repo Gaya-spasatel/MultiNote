@@ -43,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
         registerViewModel.getAnswerMutableLiveData().observe(this, new Observer<RegisterAnswer>() {
             @Override
             public void onChanged(RegisterAnswer registerAnswer) {
-                Toast.makeText(getApplicationContext(), registerAnswer.getAnswer(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), registerAnswer.getAnswer()+registerAnswer.getConnection(), Toast.LENGTH_LONG).show();
             }
         });
         logRegViewModel = ViewModelProviders.of(this).get(LogRegViewModel.class);
