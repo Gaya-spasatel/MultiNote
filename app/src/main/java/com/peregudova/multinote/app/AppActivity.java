@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.peregudova.multinote.R;
 
 
@@ -26,6 +27,8 @@ public class AppActivity extends AppCompatActivity implements RecyclerViewClickL
     String token;
     NoteFragment fragment;
     FragmentViewViewModel fragmentViewViewModel;
+    FloatingActionButton actionButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +39,13 @@ public class AppActivity extends AppCompatActivity implements RecyclerViewClickL
         rv = findViewById(R.id.recyclerView);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         rv.setLayoutManager(llm);
+        actionButton = findViewById(R.id.floatingActionButton);
+        actionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+            }
+        });
         user = getIntent().getExtras().getString("user");
         token = getIntent().getExtras().getString("token");
         allNotesViewModel = ViewModelProviders.of(this).get(AllNotesViewModel.class);
