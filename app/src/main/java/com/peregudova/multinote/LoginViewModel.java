@@ -45,7 +45,8 @@ public class LoginViewModel extends ViewModel {
 
     public void logIn(String login, String password){
         showProgress.postValue(true);
-        LoginTask loginTask = (LoginTask) new LoginTask().execute(new User(login, password));
+        LoginTask loginTask = new LoginTask();
+        loginTask.execute(new User(login, password));
     }
 
     public MutableLiveData<Boolean> getProgressState(){

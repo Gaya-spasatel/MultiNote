@@ -45,7 +45,8 @@ public class NoteFragmentViewModel extends ViewModel {
 
     public void getNote(Note note, String user, String token){
         Log.d("", "manager download note");
-        NoteAsync noteAsync = (NoteAsync) new NoteAsync().execute(new GetNoteCommand(token, user, note.getId()));
+        NoteAsync noteAsync = new NoteAsync();
+        noteAsync.execute(new GetNoteCommand(token, user, note.getId()));
     }
 
 }

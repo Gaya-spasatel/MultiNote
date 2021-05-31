@@ -48,6 +48,7 @@ public class AllNotesViewModel extends ViewModel {
 
     public void getallnotes(String user, String token){
         showProgress.postValue(true);
-        AllNotesAsync async = (AllNotesAsync) new AllNotesAsync().execute(new GetAllNotesCommand(token, user));
+        AllNotesAsync async = new AllNotesAsync();
+        async.execute(new GetAllNotesCommand(token, user));
     }
 }
