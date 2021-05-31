@@ -2,6 +2,7 @@ package com.peregudova.multinote;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -15,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.peregudova.multinote.requests.LoginAnswer;
+import com.peregudova.multinote.requests.RegisterAnswer;
 
 public class LoginActivity extends AppCompatActivity {
     private Button enter;
@@ -28,12 +30,20 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        enter = (Button) findViewById(R.id.button);
-        register = (Button)findViewById(R.id.button2);
-        login = (EditText)findViewById(R.id.editTextTextPersonName);
-        password=(EditText)findViewById(R.id.editTextTextPassword);
+        setContentView(R.layout.activity_login);
+        enter = (Button) findViewById(R.id.login_button);
+        register = (Button)findViewById(R.id.button_register);
+        login = (EditText)findViewById(R.id.enter_login);
+        password=(EditText)findViewById(R.id.enter_password);
 
+         RegisterViewModel registerViewModel = ViewModelProviders.of(this).get(RegisterViewModel.class);
+        registerViewModel.getAnswerMutableLiveData().observe(this, new Observer<RegisterAnswer>() {
+            @Override
+            public void onChanged(RegisterAnswer registerAnswer) {
+                Toast.makeText(getApplicationContext(), registerAnswer.getAnswer(), Toast.LENGTH_LONG).show();
+                setVisible();
+            }
+        });
         enter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -53,6 +63,12 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //логика открытия фрагмента регистрации
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                RegisterFragment fragment = (RegisterFragment) fragmentManager.findFragmentById(R.id.reg_fragment);
+                if(fragment!=null){
+                    fragment.setVisible();
+                    setInvisible();
+                }
             }
         });
         viewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
@@ -81,6 +97,26 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void setInvisible() {
+        enter.setVisibility(View.INVISIBLE);
+        register.setVisibility(View.INVISIBLE);
+        login.setVisibility(View.INVISIBLE);
+        password.setVisibility(View.INVISIBLE);
+        findViewById(R.id.text_login).setVisibility(View.INVISIBLE);
+        findViewById(R.id.textpassword).setVisibility(View.INVISIBLE);
+        findViewById(R.id.textLogin).setVisibility(View.INVISIBLE);
+    }
+
+    private void setVisible(){
+        enter.setVisibility(View.VISIBLE);
+        register.setVisibility(View.VISIBLE);
+        login.setVisibility(View.VISIBLE);
+        password.setVisibility(View.VISIBLE);
+        findViewById(R.id.text_login).setVisibility(View.VISIBLE);
+        findViewById(R.id.textpassword).setVisibility(View.VISIBLE);
+        findViewById(R.id.textLogin).setVisibility(View.VISIBLE);
     }
 
     private void showProgress() {
