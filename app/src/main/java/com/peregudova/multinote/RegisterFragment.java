@@ -28,7 +28,7 @@ public class RegisterFragment extends Fragment{
     ProgressBar progressBar;
     Button register_button;
     Button back;
-    LogRegViewModel logRegViewModel;
+    private LogRegViewModel logRegViewModel;
 
     @Override
     public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
@@ -52,8 +52,11 @@ public class RegisterFragment extends Fragment{
             }
         });
 
-        logRegViewModel = ViewModelProviders.of(this).get(LogRegViewModel.class);
-        logRegViewModel.getFragmentVisible().observe(this, new Observer<Boolean>() {
+    }
+
+    public void setLogRegViewModel(LogRegViewModel logRegViewModel) {
+        this.logRegViewModel = logRegViewModel;
+        this.logRegViewModel.getFragmentVisible().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
                 if(aBoolean){
@@ -79,6 +82,7 @@ public class RegisterFragment extends Fragment{
         email = inflate.findViewById(R.id.reg_email);
         register_button = inflate.findViewById(R.id.reg_button);
         back = inflate.findViewById(R.id.back_button_register);
+        progressBar = inflate.findViewById(R.id.progressBar2);
         register_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -89,7 +93,7 @@ public class RegisterFragment extends Fragment{
                 if(answer){
                     registerViewModel.registerUser(reg_login, reg_password, reg_email);
                 }else{
-                    //Toast.makeText(getContext(), "Error in login or password pr email", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Error in login or password or email", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -97,7 +101,7 @@ public class RegisterFragment extends Fragment{
             @Override
             public void onClick(View view) {
 
-                setInvisible();
+                logRegViewModel.setViewFragment(false);
             }
         });
         inflate.setVisibility(View.GONE);

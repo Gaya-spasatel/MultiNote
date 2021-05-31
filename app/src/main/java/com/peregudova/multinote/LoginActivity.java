@@ -76,6 +76,7 @@ public class LoginActivity extends AppCompatActivity {
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 RegisterFragment fragment = (RegisterFragment) fragmentManager.findFragmentById(R.id.reg_fragment);
                 if(fragment!=null){
+                    fragment.setLogRegViewModel(logRegViewModel);
                     logRegViewModel.setViewFragment(true);
                 }
             }
