@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel;
 
 public class LogRegViewModel extends ViewModel {
 
-    private MutableLiveData<Boolean> fragmentVisible;
+    private MutableLiveData<Boolean> fragmentVisible = new MutableLiveData<>();
 
     public MutableLiveData<Boolean> getFragmentVisible() {
         return fragmentVisible;

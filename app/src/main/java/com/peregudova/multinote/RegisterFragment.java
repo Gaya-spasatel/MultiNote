@@ -1,7 +1,6 @@
 package com.peregudova.multinote;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -90,7 +89,7 @@ public class RegisterFragment extends Fragment{
                 if(answer){
                     registerViewModel.registerUser(reg_login, reg_password, reg_email);
                 }else{
-                    Toast.makeText(getContext(), "Error in login or password pr email", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getContext(), "Error in login or password pr email", Toast.LENGTH_SHORT).show();
                 }
             }
         });
