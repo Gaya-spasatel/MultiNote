@@ -69,6 +69,9 @@ public class AppActivity extends AppCompatActivity implements RecyclerViewClickL
         });
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragment = (NoteFragment) fragmentManager.findFragmentById(R.id.note_fragment);
+        if(fragment!=null) {
+            fragment.setFragmentViewViewModel(fragmentViewViewModel);
+        }
     }
     private void showProgress() {
         ProgressBar progressBar =  findViewById(R.id.progressBar);
