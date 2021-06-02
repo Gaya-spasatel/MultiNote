@@ -19,10 +19,11 @@ import com.peregudova.multinote.R;
 import com.peregudova.multinote.requests.ListAccessAnswer;
 import com.peregudova.multinote.requests.Note;
 import com.peregudova.multinote.requests.NoteAnswer;
+import com.peregudova.multinote.requests.User;
 
 import org.jetbrains.annotations.NotNull;
 
-public class NoteFragment extends Fragment implements View.OnClickListener {
+public class NoteFragment extends Fragment {
 
     NoteFragmentViewModel noteFragmentViewModel;
     Button button;
@@ -30,7 +31,11 @@ public class NoteFragment extends Fragment implements View.OnClickListener {
     TextView note_info;
     EditText text_add_access;
     TextView list_access;
+    Button change;
     FragmentViewViewModel fragmentViewViewModel;
+    String user;
+    Note note;
+    String token;
 
     @Override
     public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
@@ -40,6 +45,7 @@ public class NoteFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onChanged(NoteAnswer noteAnswer) {
                 //вызов функций отображения контента
+                note = noteAnswer.getNote();
                 showContent(noteAnswer);
 
             }
@@ -96,7 +102,16 @@ public class NoteFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         View inflate = inflater.inflate(R.layout.note_fragment, container, false);
         button = inflate.findViewById(R.id.add_access_button);
-        button.setOnClickListener(this);
+        text_add_access = inflate.findViewById(R.id.new_access);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //button add list access
+                String login = text_add_access.getText().toString();
+                noteFragmentViewModel.addAccessList(user, token, login, note.getId());
+                noteFragmentViewModel.getListAccess(user, token, note.getId());
+            }
+        });
         note_text = inflate.findViewById(R.id.note_text);
         note_info = inflate.findViewById(R.id.note_info);
         list_access = inflate.findViewById(R.id.list_access);
@@ -104,13 +119,11 @@ public class NoteFragment extends Fragment implements View.OnClickListener {
         return inflate;
     }
 
-    @Override
-    public void onClick(View view) {
-        //does smthg after button clicked button add_acces
-    }
 
     public void setNote(Note note, String user, String token) {
         //команда от активности на загрузку data фрагмента
+        this.user = user;
+        this.token = token;
         noteFragmentViewModel.getNote(note, user, token);
         noteFragmentViewModel.getListAccess(user, token, note.getId());
     }

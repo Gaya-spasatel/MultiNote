@@ -20,6 +20,13 @@
             android:inputType="textMultiLine"
             android:longClickable="false" />
 
+        <Button
+            android:id="@+id/button_change"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/change"
+            />
+
         <TextView
             android:id="@+id/note_info"
             android:layout_width="match_parent"
