@@ -8,6 +8,8 @@ import androidx.lifecycle.ViewModel;
 
 import com.peregudova.multinote.requests.AddAccessAnswer;
 import com.peregudova.multinote.requests.AddAccessCommand;
+import com.peregudova.multinote.requests.ChangeAnswer;
+import com.peregudova.multinote.requests.ChangeNoteCommand;
 import com.peregudova.multinote.requests.GetAllNotesCommand;
 import com.peregudova.multinote.requests.GetNoteCommand;
 import com.peregudova.multinote.requests.ListAccessAnswer;
@@ -23,6 +25,7 @@ public class NoteFragmentViewModel extends ViewModel {
     private MutableLiveData<NoteAnswer> noteAnswerMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<ListAccessAnswer> listAccessAnswerMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<AddAccessAnswer> addAccessAnswerMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<ChangeAnswer> changeAnswerMutableLiveData = new MutableLiveData<>();
 
     public MutableLiveData<NoteAnswer> getNoteAnswerMutableLiveData() {
         return noteAnswerMutableLiveData;
@@ -34,6 +37,10 @@ public class NoteFragmentViewModel extends ViewModel {
 
     public MutableLiveData<AddAccessAnswer> getAddAccessAnswerMutableLiveData() {
         return addAccessAnswerMutableLiveData;
+    }
+
+    public MutableLiveData<ChangeAnswer> getChangeAnswerMutableLiveData() {
+        return changeAnswerMutableLiveData;
     }
 
     class NoteAsync extends AsyncTask<GetNoteCommand, Void, NoteAnswer>{
@@ -96,6 +103,19 @@ public class NoteFragmentViewModel extends ViewModel {
         @Override
         protected void onPostExecute(AddAccessAnswer addAccessAnswer) {
             addAccessAnswerMutableLiveData.postValue(addAccessAnswer);
+        }
+    }
+
+    class ChangeAsync extends AsyncTask<ChangeNoteCommand, Void, ChangeAnswer>{
+
+        @Override
+        protected ChangeAnswer doInBackground(ChangeNoteCommand... changeNoteCommands) {
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(ChangeAnswer changeAnswer) {
+            changeAnswerMutableLiveData.postValue(changeAnswer);
         }
     }
 

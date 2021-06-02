@@ -131,4 +131,18 @@ public class NoteFragment extends Fragment {
     public interface OnSelectedButtonListener {
         void onButtonSelected();
     }
+
+    private void blockText(){
+        //android:cursorVisible="false"
+        //            android:focusable="false"
+        note_text.setCursorVisible(true);
+        note_text.setFocusable(true);
+    }
+
+    private void unBlockText(){
+        //android:cursorVisible="false"
+        //            android:focusable="false"
+        note_text.setCursorVisible(false);
+        note_text.setFocusable(false);
+    }
 }
