@@ -16,6 +16,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.peregudova.multinote.R;
+import com.peregudova.multinote.requests.ListAccessAnswer;
 import com.peregudova.multinote.requests.Note;
 import com.peregudova.multinote.requests.NoteAnswer;
 
@@ -28,6 +29,7 @@ public class NoteFragment extends Fragment implements View.OnClickListener {
     TextView note_text;
     TextView note_info;
     EditText text_add_access;
+    TextView list_access;
     FragmentViewViewModel fragmentViewViewModel;
 
     @Override
@@ -42,6 +44,20 @@ public class NoteFragment extends Fragment implements View.OnClickListener {
 
             }
         });
+        noteFragmentViewModel.getListAccessAnswerMutableLiveData().observe(this, new Observer<ListAccessAnswer>() {
+            @Override
+            public void onChanged(ListAccessAnswer listAccessAnswer) {
+                showListAccess(listAccessAnswer);
+            }
+        });
+    }
+
+    private void showListAccess(ListAccessAnswer listAccessAnswer) {
+        StringBuffer list = new StringBuffer();
+        for(String key:listAccessAnswer.getListaccess().keySet()){
+            list.append(key).append(". ").append(listAccessAnswer.getListaccess().get(key).getAccess_login()).append("\n");
+        }
+        list_access.setText(list);
     }
 
     public void setFragmentViewViewModel(FragmentViewViewModel fragmentViewViewModel) {
@@ -67,7 +83,6 @@ public class NoteFragment extends Fragment implements View.OnClickListener {
     }
 
     private void showContent(NoteAnswer noteAnswer) {
-        Log.d("", "shows info");
         setVisible();
         note_text.setText(noteAnswer.getNote().getText());
         Note note = noteAnswer.getNote();
@@ -84,6 +99,7 @@ public class NoteFragment extends Fragment implements View.OnClickListener {
         button.setOnClickListener(this);
         note_text = inflate.findViewById(R.id.note_text);
         note_info = inflate.findViewById(R.id.note_info);
+        list_access = inflate.findViewById(R.id.list_access);
         inflate.setVisibility(View.GONE);
         return inflate;
     }
@@ -95,8 +111,8 @@ public class NoteFragment extends Fragment implements View.OnClickListener {
 
     public void setNote(Note note, String user, String token) {
         //команда от активности на загрузку data фрагмента
-        Log.d("", "say manager download note");
         noteFragmentViewModel.getNote(note, user, token);
+        noteFragmentViewModel.getListAccess(user, token, note.getId());
     }
 
     public interface OnSelectedButtonListener {

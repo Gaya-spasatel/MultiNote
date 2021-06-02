@@ -14,7 +14,6 @@ import java.io.IOException;
 public class AllNotesViewModel extends ViewModel {
     private MutableLiveData<Boolean> showProgress = new MutableLiveData<>();
 
-
     private MutableLiveData<NotesAnswer> notesAnswerMutableLiveData = new MutableLiveData<>();
 
     public MutableLiveData<Boolean> getProgressState(){
