@@ -31,6 +31,7 @@ public class AppActivity extends AppCompatActivity implements RecyclerViewClickL
     FragmentViewViewModel fragmentViewViewModel;
     FloatingActionButton actionButton;
     NewNoteViewModel newNoteViewModel;
+    ExitViewModel exitViewModel;
 
 
     @Override
@@ -106,6 +107,7 @@ public class AppActivity extends AppCompatActivity implements RecyclerViewClickL
                 allNotesViewModel.getallnotes(user, token);
             }
         });
+        exitViewModel = ViewModelProviders.of(this).get(ExitViewModel.class);
     }
 
     private void showProgress() {
@@ -145,5 +147,11 @@ public class AppActivity extends AppCompatActivity implements RecyclerViewClickL
         fragmentViewViewModel.setViewFragment(false);
         allNotesViewModel.getallnotes(user, token);
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        exitViewModel.exit(token, user);
     }
 }
