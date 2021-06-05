@@ -120,8 +120,10 @@ public class NoteFragment extends Fragment {
         button.setOnClickListener(view -> {
             //button add list access
             String login = text_add_access.getText().toString();
-            noteFragmentViewModel.addAccessList(user, token, login, note.getId());
-            noteFragmentViewModel.getListAccess(user, token, note.getId());
+            if(noteFragmentViewModel.check(login)){
+                noteFragmentViewModel.addAccessList(user, token, login, note.getId());
+                noteFragmentViewModel.getListAccess(user, token, note.getId());
+            }
         });
         change = inflate.findViewById(R.id.button_change);
         change.setOnClickListener(new View.OnClickListener() {

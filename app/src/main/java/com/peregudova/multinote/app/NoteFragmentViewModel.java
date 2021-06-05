@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.peregudova.multinote.checkers.LoginChecker;
 import com.peregudova.multinote.requests.AddAccessAnswer;
 import com.peregudova.multinote.requests.AddAccessCommand;
 import com.peregudova.multinote.requests.ChangeAnswer;
@@ -176,6 +177,10 @@ public class NoteFragmentViewModel extends ViewModel {
     public void saveNote(String token, String user, String id_note, String text){
         SaveAsync saveAsync = new SaveAsync();
         saveAsync.execute(new SaveNoteCommand(token, user, id_note, text));
+    }
+
+    public boolean check(String str){
+        return new LoginChecker().check(str);
     }
 
 }
