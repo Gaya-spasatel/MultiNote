@@ -94,6 +94,7 @@ public class NoteFragment extends Fragment {
         Note note = noteAnswer.getNote();
         String info = "Is modified: "+note.getIs_modified()+"\nLast modified: "+note.getLast_modified()+"\nLogin modified: "+note.getLogin_modified()+"\nOwner: "+note.getOwner();
         note_info.setText(info);
+        change.setClickable(!note.getIs_modified().equals("1"));
     }
 
     @Nullable
@@ -103,13 +104,17 @@ public class NoteFragment extends Fragment {
         View inflate = inflater.inflate(R.layout.note_fragment, container, false);
         button = inflate.findViewById(R.id.add_access_button);
         text_add_access = inflate.findViewById(R.id.new_access);
-        button.setOnClickListener(new View.OnClickListener() {
+        button.setOnClickListener(view -> {
+            //button add list access
+            String login = text_add_access.getText().toString();
+            noteFragmentViewModel.addAccessList(user, token, login, note.getId());
+            noteFragmentViewModel.getListAccess(user, token, note.getId());
+        });
+        change = inflate.findViewById(R.id.button_change);
+        change.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //button add list access
-                String login = text_add_access.getText().toString();
-                noteFragmentViewModel.addAccessList(user, token, login, note.getId());
-                noteFragmentViewModel.getListAccess(user, token, note.getId());
+                //ask server to change note
             }
         });
         note_text = inflate.findViewById(R.id.note_text);
@@ -126,10 +131,6 @@ public class NoteFragment extends Fragment {
         this.token = token;
         noteFragmentViewModel.getNote(note, user, token);
         noteFragmentViewModel.getListAccess(user, token, note.getId());
-    }
-
-    public interface OnSelectedButtonListener {
-        void onButtonSelected();
     }
 
     private void blockText(){

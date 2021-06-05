@@ -110,7 +110,16 @@ public class NoteFragmentViewModel extends ViewModel {
 
         @Override
         protected ChangeAnswer doInBackground(ChangeNoteCommand... changeNoteCommands) {
-            return null;
+            ChangeAnswer changeAnswer = new ChangeAnswer("Error in app", null);
+            for(ChangeNoteCommand changeNoteCommand: changeNoteCommands){
+                try {
+                    changeAnswer = new Requester().changenote(changeNoteCommand);
+                } catch (IOException e) {
+                    //e.printStackTrace();
+                }
+            }
+
+            return changeAnswer;
         }
 
         @Override
@@ -133,5 +142,11 @@ public class NoteFragmentViewModel extends ViewModel {
         AddAccessAsync addAccessAsync = new AddAccessAsync();
         addAccessAsync.execute(new AddAccessCommand(token, user, login, id_note));
     }
+
+    public void changeNote(String user, String token, String id_note){
+        ChangeAsync changeAsync = new ChangeAsync();
+        changeAsync.execute(new ChangeNoteCommand(token, user, id_note));
+    }
+
 
 }
