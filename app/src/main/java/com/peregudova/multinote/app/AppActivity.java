@@ -77,6 +77,7 @@ public class AppActivity extends AppCompatActivity implements RecyclerViewClickL
                     setInvisible();
                 } else{
                     setVisible();
+                    fragment.saveNote();
                 }
             }
         });
@@ -141,7 +142,8 @@ public class AppActivity extends AppCompatActivity implements RecyclerViewClickL
     @Override
     public void onBackPressed() {
         //нажата клавиша назад делаем обновление списка и скрываем фрагмент
-        allNotesViewModel.getallnotes(user, token);
         fragmentViewViewModel.setViewFragment(false);
+        allNotesViewModel.getallnotes(user, token);
+
     }
 }

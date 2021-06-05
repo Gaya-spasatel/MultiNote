@@ -137,6 +137,7 @@ public class NoteFragment extends Fragment {
             public void onClick(View view) {
                 //clicked to save note
                 saveNote();
+                blockText();
             }
         });
         note_text = inflate.findViewById(R.id.note_text);
@@ -146,8 +147,10 @@ public class NoteFragment extends Fragment {
         return inflate;
     }
 
-    private void saveNote() {
-
+    public void saveNote() {
+        blockText();
+        String text = note_text.getText().toString();
+        noteFragmentViewModel.saveNote(token, user, note.getId(), text);
     }
 
 
@@ -167,5 +170,6 @@ public class NoteFragment extends Fragment {
     private void blockText(){
         save.setVisibility(View.GONE);
         note_text.setEnabled(false);
+        change.setVisibility(View.VISIBLE);
     }
 }
