@@ -106,6 +106,8 @@ public class NoteFragment extends Fragment {
         String info = "Is modified: "+note.getIs_modified()+"\nLast modified: "+note.getLast_modified()+"\nLogin modified: "+note.getLogin_modified()+"\nOwner: "+note.getOwner();
         note_info.setText(info);
         change.setClickable(!note.getIs_modified().equals("1"));
+        save.setVisibility(View.GONE);
+        change.setVisibility(View.VISIBLE);
     }
 
     @Nullable
@@ -134,6 +136,7 @@ public class NoteFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 //clicked to save note
+                saveNote();
             }
         });
         note_text = inflate.findViewById(R.id.note_text);
@@ -141,6 +144,10 @@ public class NoteFragment extends Fragment {
         list_access = inflate.findViewById(R.id.list_access);
         inflate.setVisibility(View.GONE);
         return inflate;
+    }
+
+    private void saveNote() {
+
     }
 
 
@@ -152,19 +159,13 @@ public class NoteFragment extends Fragment {
         noteFragmentViewModel.getListAccess(user, token, note.getId());
     }
 
-    private void blockText(){
-        //android:cursorVisible="false"
-        //            android:focusable="false"
-        note_text.setCursorVisible(true);
-        note_text.setFocusable(true);
-        save.setVisibility(View.GONE);
+    private void unBlockText(){
+        save.setVisibility(View.VISIBLE);
+        note_text.setEnabled(true);
     }
 
-    private void unBlockText(){
-        //android:cursorVisible="false"
-        //            android:focusable="false"
-        note_text.setCursorVisible(false);
-        note_text.setFocusable(false);
-        save.setVisibility(View.VISIBLE);
+    private void blockText(){
+        save.setVisibility(View.GONE);
+        note_text.setEnabled(false);
     }
 }

@@ -1,7 +1,6 @@
 package com.peregudova.multinote.app;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -10,14 +9,14 @@ import com.peregudova.multinote.requests.AddAccessAnswer;
 import com.peregudova.multinote.requests.AddAccessCommand;
 import com.peregudova.multinote.requests.ChangeAnswer;
 import com.peregudova.multinote.requests.ChangeNoteCommand;
-import com.peregudova.multinote.requests.GetAllNotesCommand;
 import com.peregudova.multinote.requests.GetNoteCommand;
 import com.peregudova.multinote.requests.ListAccessAnswer;
 import com.peregudova.multinote.requests.ListAccessCommand;
 import com.peregudova.multinote.requests.Note;
 import com.peregudova.multinote.requests.NoteAnswer;
-import com.peregudova.multinote.requests.NotesAnswer;
 import com.peregudova.multinote.requests.Requester;
+import com.peregudova.multinote.requests.SaveAnswer;
+import com.peregudova.multinote.requests.SaveNoteCommand;
 
 import java.io.IOException;
 
@@ -26,6 +25,7 @@ public class NoteFragmentViewModel extends ViewModel {
     private MutableLiveData<ListAccessAnswer> listAccessAnswerMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<AddAccessAnswer> addAccessAnswerMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<ChangeAnswer> changeAnswerMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<SaveAnswer> saveAnswerMutableLiveData = new MutableLiveData<>();
 
     public MutableLiveData<NoteAnswer> getNoteAnswerMutableLiveData() {
         return noteAnswerMutableLiveData;
@@ -41,6 +41,10 @@ public class NoteFragmentViewModel extends ViewModel {
 
     public MutableLiveData<ChangeAnswer> getChangeAnswerMutableLiveData() {
         return changeAnswerMutableLiveData;
+    }
+
+    public MutableLiveData<SaveAnswer> getSaveAnswerMutableLiveData() {
+        return saveAnswerMutableLiveData;
     }
 
     class NoteAsync extends AsyncTask<GetNoteCommand, Void, NoteAnswer>{
@@ -128,6 +132,27 @@ public class NoteFragmentViewModel extends ViewModel {
         }
     }
 
+    class SaveAsync extends AsyncTask<SaveNoteCommand, Void, SaveAnswer>{
+
+        @Override
+        protected SaveAnswer doInBackground(SaveNoteCommand... saveNoteCommands) {
+            SaveAnswer saveAnswer = new SaveAnswer("Error in app");
+            for(SaveNoteCommand saveNoteCommand:saveNoteCommands){
+                try {
+                    saveAnswer = new Requester().saveNote(saveNoteCommand);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return saveAnswer;
+        }
+
+        @Override
+        protected void onPostExecute(SaveAnswer saveAnswer) {
+            saveAnswerMutableLiveData.postValue(saveAnswer);
+        }
+    }
+
     public void getNote(Note note, String user, String token){
         NoteAsync noteAsync = new NoteAsync();
         noteAsync.execute(new GetNoteCommand(token, user, note.getId()));
@@ -148,5 +173,9 @@ public class NoteFragmentViewModel extends ViewModel {
         changeAsync.execute(new ChangeNoteCommand(token, user, id_note));
     }
 
+    public void saveNote(String token, String user, String id_note, String text){
+        SaveAsync saveAsync = new SaveAsync();
+        saveAsync.execute(new SaveNoteCommand(token, user, id_note, text));
+    }
 
 }
