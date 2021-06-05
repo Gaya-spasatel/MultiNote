@@ -16,6 +16,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.peregudova.multinote.R;
+import com.peregudova.multinote.requests.ChangeAnswer;
 import com.peregudova.multinote.requests.ListAccessAnswer;
 import com.peregudova.multinote.requests.Note;
 import com.peregudova.multinote.requests.NoteAnswer;
@@ -36,6 +37,7 @@ public class NoteFragment extends Fragment {
     String user;
     Note note;
     String token;
+    Button save;
 
     @Override
     public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
@@ -54,6 +56,15 @@ public class NoteFragment extends Fragment {
             @Override
             public void onChanged(ListAccessAnswer listAccessAnswer) {
                 showListAccess(listAccessAnswer);
+            }
+        });
+        noteFragmentViewModel.getChangeAnswerMutableLiveData().observe(this, new Observer<ChangeAnswer>() {
+            @Override
+            public void onChanged(ChangeAnswer changeAnswer) {
+                if(changeAnswer.getChange().equals("true")){
+                    unBlockText();
+                    change.setVisibility(View.GONE);
+                }
             }
         });
     }
@@ -115,6 +126,14 @@ public class NoteFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 //ask server to change note
+                noteFragmentViewModel.changeNote(user, token, note.getId());
+            }
+        });
+        save = inflate.findViewById(R.id.button_save);
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //clicked to save note
             }
         });
         note_text = inflate.findViewById(R.id.note_text);
@@ -138,6 +157,7 @@ public class NoteFragment extends Fragment {
         //            android:focusable="false"
         note_text.setCursorVisible(true);
         note_text.setFocusable(true);
+        save.setVisibility(View.GONE);
     }
 
     private void unBlockText(){
@@ -145,5 +165,6 @@ public class NoteFragment extends Fragment {
         //            android:focusable="false"
         note_text.setCursorVisible(false);
         note_text.setFocusable(false);
+        save.setVisibility(View.VISIBLE);
     }
 }
